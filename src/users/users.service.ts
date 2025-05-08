@@ -14,16 +14,11 @@ export class UsersService {
   async findUserLog() {
     const EVENT_REPO: IEventRepository = new PostgresEventRepository();
 
-    // Gọi phương thức `findAll` từ `userClickhouseRepository` để lấy tất cả các logs.
-    const start = Date.now();
-    this.logger.log('Handled event', { duration: Date.now() - start });
     return await EVENT_REPO.findAll();
   }
 
   async getUserRecentLogs() {
     // Gọi phương thức `findUserLog` từ `userClickhouseRepository` để lấy các logs gần đây của người dùng.
-    const start = Date.now();
-    this.logger.log('Handled event', { duration: Date.now() - start });
     const EVENT_REPO: IEventRepository = new ClickhouseEventRepository();
     return await EVENT_REPO.findById();
   }
