@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { ClickHouseModule } from './clickhouse/clickhouse.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ClickHouseModule } from './clickhouse/clickhouse.module';
     }),
     UsersModule,
     ClickHouseModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
