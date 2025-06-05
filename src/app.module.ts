@@ -6,6 +6,9 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { ClickHouseModule } from './clickhouse/clickhouse.module';
 import { MessageModule } from './message/message.module';
+import { OrderModule } from './order/order.module';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -22,9 +25,20 @@ import { MessageModule } from './message/message.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    ClientsModule.register([
+      {
+        name: 'HERO_PACKAGE',
+        transport: Transport.GRPC,
+        options: {
+          package: 'order',
+          protoPath: join(__dirname, '../src/order/hero.proto'),
+        },
+      },
+    ]),
     UsersModule,
     ClickHouseModule,
     MessageModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

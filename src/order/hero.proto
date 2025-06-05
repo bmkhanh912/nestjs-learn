@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package order;
+
+service OrderService {
+  rpc FindOne (OrderById) returns (OrderResponse) {}
+}
+
+message OrderById {
+  int32 id = 1;
+}
+
+message OrderResponse {
+  string message = 1;
+}
