@@ -9,6 +9,7 @@ import { MessageModule } from './message/message.module';
 import { OrderModule } from './order/order.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { SmsModule } from './sms/sms.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { join } from 'path';
     ClickHouseModule,
     MessageModule,
     OrderModule,
+    SmsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
