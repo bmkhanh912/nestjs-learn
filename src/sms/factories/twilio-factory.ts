@@ -1,6 +1,6 @@
 import { SmsFactory } from '../interfaces/sms-factory.interface';
 import { SmsProcessor } from '../interfaces/sms-processor.interface';
-import { TwilioProcessor } from '../processors/twilio-provider';
+import { TwilioProcessor } from '../processors/twilio-processor';
 
 /**
  * TwilioFactory là một lớp triển khai của SmsFactory

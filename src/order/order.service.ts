@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class OrderService {
   findOne(id: number) {
     return {
-      message: 'this is from client',
+      message: 'this is from server',
     };
   }
 }

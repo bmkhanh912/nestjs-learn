@@ -1,6 +1,6 @@
 import { SmsFactory } from '../interfaces/sms-factory.interface';
 import { SmsProcessor } from '../interfaces/sms-processor.interface';
-import { NexmoProcessor } from '../processors/nexmo-provider';
+import { NexmoProcessor } from '../processors/nexmo-processor';
 
 /**
  * NexmoFactory là một lớp triển khai của SmsFactory
