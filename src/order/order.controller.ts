@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { GrpcMethod } from '@nestjs/microservices';
 
@@ -6,8 +6,21 @@ import { GrpcMethod } from '@nestjs/microservices';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @GrpcMethod('OrderService', 'findOne')
-  findOne(data: { id: number }): any {
-    return this.orderService.findOne(data.id);
+  @Get('basic')
+  getBasicOrder() {
+    return this.orderService.createBasicOrder(1, 101);
+  }
+
+  @Get('full')
+  getFullOrder() {
+    return this.orderService.createFullOrder(
+      2,
+      [
+        { productId: 201, quantity: 2 },
+        { productId: 202, quantity: 1 },
+      ],
+      'express',
+      'paypal',
+    );
   }
 }
