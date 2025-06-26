@@ -1,12 +1,16 @@
-import { Controller, Get, Res, Sse } from '@nestjs/common';
+import { Controller, Get, Post, Res, Sse } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { GrpcMethod } from '@nestjs/microservices';
 import { Response } from 'express';
 import { Observable } from 'rxjs';
+import { OrderGateway } from './order.gateway';
 
 @Controller('order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly orderGateway: OrderGateway,
+  ) {}
 
   @Get('basic')
   getBasicOrder() {
@@ -79,5 +83,34 @@ export class OrderController {
         }
       }, 1000);
     });
+  }
+
+  /**
+   * API POST để test gửi dữ liệu qua WebSocket
+   * Đường dẫn: POST /test-socket/emit
+   * Khi gọi API này, server sẽ emit một message đến roomId = '123456'
+   */
+  @Post('emit')
+  emitMessagePost() {
+    /**
+     * Tạo dữ liệu muốn gửi tới client
+     * message: nội dung thông điệp
+     * timestamp: thời điểm gửi
+     */
+    const DATA = {
+      message: 'Hello from OrderController',
+      timestamp: new Date(),
+    };
+
+    /**
+     * Gửi dữ liệu tới tất cả client đang join room có id '123456'
+     * Sử dụng phương thức emitSessionUpdate của OrderGateway
+     */
+    this.orderGateway.emitSessionUpdate('123456', DATA);
+
+    /**
+     * Trả về kết quả cho client gọi API
+     */
+    return { success: true, sent: DATA };
   }
 }

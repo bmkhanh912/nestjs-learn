@@ -1,26 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <title>SSE Test</title>
+    <title>Socket.IO Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4/dist/socket.io.min.js"></script>
   </head>
   <body>
-    <h1>Kết quả SSE:</h1>
-    <pre id="output"></pre>
+    <input id="roomId" placeholder="Type room ID (page_id)..." />
+    <button onclick="joinRoom()">Join Room</button>
+
+    <ul id="messages"></ul>
 
     <script>
-      const output = document.getElementById('output');
-      const es = new EventSource('http://localhost:3000/order/stream1');
+      const socket = io('http://localhost:3000');
 
-      es.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        output.textContent += `✅ ${data.count}\n`;
-      };
+      socket.on('connect', () => {
+        console.log('✅ Connected to server');
+      });
 
-      es.onerror = (err) => {
-        output.textContent += `❌ Lỗi kết nối\n`;
-        console.error(err);
-      };
+      /** Lắng nghe khi server gửi update session */
+      socket.on('SESSION_UPDATE', (msg) => {
+        console.log('📥 Session update received:', msg);
+        const li = document.createElement('li');
+        li.textContent = JSON.stringify(msg);
+        document.getElementById('messages').appendChild(li);
+      });
+
+      /** Lắng nghe xác nhận join room thành công */
+      socket.on('JOINED_ROOM', (msg) => {
+        console.log(msg);
+      });
+
+      /** Hàm join vào room */
+      function joinRoom() {
+        const roomId = document.getElementById('roomId').value.trim();
+        if (roomId) {
+          socket.emit('JOIN_ROOM', roomId);
+        } else {
+          alert('Vui lòng nhập room ID');
+        }
+      }
     </script>
   </body>
 </html>
