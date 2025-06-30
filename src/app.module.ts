@@ -10,6 +10,8 @@ import { OrderModule } from './order/order.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { SmsModule } from './sms/sms.module';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -41,6 +43,7 @@ import { SmsModule } from './sms/sms.module';
     MessageModule,
     OrderModule,
     SmsModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
